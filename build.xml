@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="omistaAnt" default="s3uploadTestTarget" basedir=".">
+	<path id="classpath">
+		<pathelement location="./bin" />
+		<pathelement location="lib/commons-logging-1.1.1.jar" />
+		<pathelement location="lib/aws-java-sdk-1.3.3.jar" />
+		<pathelement location="lib/httpclient-4.1.1.jar" />
+		<pathelement location="lib/httpcore-4.1.jar" />
+		<pathelement location="lib/commons-codec-1.3.jar" />
+	</path>
+
+	<!-- タスク定義 -->
+	<typedef name="s3Upload" classname="jp.classmethod.anttask.S3Upload" classpathref="classpath" />
+
+	<target name="s3uploadTestTarget">
+		<echo message="start js upload." />
+		<!-- アップロード先バケット名とprefix名,contentEncoding,contenttype,cacheControlが指定可能 -->
+		<s3Upload bucket="testbucket" prefix="public/js" contentEncoding="gzip" contentType="application/javascript">
+			<!-- AWS認証情報 -->
+			<awsCredentials accessKey="accessKey" secretKey="secretKey" />
+			<!--　アップロードするファイルセット -->
+			<fileset dir="./test/js" includes="**/*" />
+		</s3Upload>
+	</target>
+</project>
