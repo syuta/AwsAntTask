@@ -1,8 +1,8 @@
 Amazon S3へアップロードするためのAntタスクです。
 
 1.主な機能
-	・filesetで指定したファイルに対し、指定したバケットへprefix要素を付与してアップロード
-	・アップロードするファイルに対してContentEncoding,ContentType,Cache-Controlを指定可能
+	・filesetで指定したファイルに対し、バケットへprefix要素を付与してアップロード
+	・アップロードするファイルにContentEncoding,ContentType,Cache-Controlを指定可能
 
 2.依存ライブラリ
 	commons-logging-1.1.1.jar
@@ -14,18 +14,21 @@ Amazon S3へアップロードするためのAntタスクです。
 
 3.使用方法
 	Antのbuild.xmlでtaskdefを用いてS3アップロード用タスクを定義します。
-	<typedef name="s3Upload" classname="jp.classmethod.anttask.S3Upload" classpathref="classpath" />
+	<typedef name="s3Upload" 
+		classname="jp.classmethod.anttask.S3Upload" classpathref="classpath" />
 	classpathは、上記依存ライブラリを指定したクラスパスを設定してください。
 	
-	typedefで設定したタスクに、バケット名(必須)、prefix(必須)を指定し、awsCredentialsで認証情報を指定します。
+	typedefで設定したタスクに、バケット名(必須)、prefix(必須)を指定し、
+	awsCredentialsで認証情報を指定します。
 	<s3Upload bucket="testbucket" prefix="public/js">
-			<!-- AWS認証情報 -->
-			<awsCredentials accessKey="accessKey" secretKey="secretKey" />
-			<!--　アップロードするファイルセット -->
-			<fileset dir="./test/js" includes="**/*" />
+		<!-- AWS認証情報 -->
+		<awsCredentials accessKey="accessKey" secretKey="secretKey" />
+		<!--　アップロードするファイルセット -->
+		<fileset dir="./test/js" includes="**/*" />
 	</s3Upload>
 	
 	必要に応じてContentEncoding,ContentType,Cache-Controlを指定してください。
 
 4.その他
-	ACLについてはバケットから取得し、それに加えて全ユーザーに対してREAD権限を追加しています。
+	ACLについてはバケットから取得し、
+	それに加えて全ユーザーに対してREAD権限を追加しています。
